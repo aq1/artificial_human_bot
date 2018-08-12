@@ -1,4 +1,5 @@
-from freelance_markets import find_projects
+import bot
 
 
-find_projects('python')
+if __name__ == '__main__':
+    bot.start_bot()
