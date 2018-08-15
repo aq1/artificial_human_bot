@@ -1,7 +1,7 @@
 import telegram.ext
 
 from bot.commands import BaseCommand
-from utils import mongo
+import mongo
 
 
 class FreelanceUpdateCommand(BaseCommand):
@@ -12,13 +12,16 @@ class FreelanceUpdateCommand(BaseCommand):
         pass
 
     def _call(self, bot, update, **kwargs):
-        query = kwargs['args'][0] if kwargs['args'] else None
         user = mongo.get_user(update.message.chat.id)
+        if not kwargs['args']:
+            update.message.reply_text('Query required')
+            return
+
+        query = kwargs['args'][0]
         projects = list(
             mongo.get_projects(
+                user,
                 query,
-                user['last_project_time'],
-                kwargs['user_data'].get('skip', 0),
             )
         )
         if not projects:

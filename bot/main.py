@@ -5,18 +5,16 @@ import settings
 import bot
 from utils.logging import logger
 
+commands = [
+    bot.commands.start_command,
+    bot.commands.help_command,
+    bot.commands.freelance_update_command,
+]
 
 bot_handler = telegram.ext.ConversationHandler(
-    entry_points=[
-        bot.commands.start_command,
-        bot.commands.help_command,
-    ],
+    entry_points=commands,
     states={
-        bot.states.START: [
-            bot.commands.start_command,
-            bot.commands.help_command,
-            bot.commands.freelance_update_command,
-        ]
+        bot.states.START: commands,
     },
     fallbacks=[telegram.ext.RegexHandler('\w+', lambda *args: bot.states.START)]
 )

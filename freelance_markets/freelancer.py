@@ -4,7 +4,7 @@ from freelancersdk.resources.projects.helpers import create_search_projects_filt
 from freelancersdk.resources.projects.exceptions import ProjectsNotFoundException
 
 import settings
-from utils import mongo
+import mongo
 from utils.logging import logger
 from utils import functions
 

@@ -1,6 +1,6 @@
 import telegram.ext
 
-from utils import mongo
+import mongo
 import bot
 
 
