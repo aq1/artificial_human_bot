@@ -9,6 +9,9 @@ commands = [
     bot.commands.start_command,
     bot.commands.help_command,
     bot.commands.freelance_update_command,
+    bot.commands.get_queries_command,
+    bot.commands.add_query_command,
+    bot.commands.remove_query_command,
 ]
 
 bot_handler = telegram.ext.ConversationHandler(

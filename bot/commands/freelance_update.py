@@ -25,8 +25,11 @@ class FreelanceUpdateCommand(BaseCommand):
             )
         )
         if not projects:
-            return update.message.reply_text('No projects found')
-        return self._send_projects(update, projects)
+            update.message.reply_text('No projects found')
+            return
+
+        self._send_projects(update, projects)
+        return True
 
     def get(self):
         return telegram.ext.CommandHandler(

@@ -31,9 +31,10 @@ def remove_query(chat_id, value):
     db.users.update({'chat_id': chat_id}, {'$pull': {'queries': value}})
 
 
-def get_queries():
+def get_queries(chat_id=None):
     result = set()
-    for user in db.users.find({}):
+    find_query = {'chat_id': chat_id} if chat_id else {}
+    for user in db.users.find(find_query):
         for q in user['queries']:
             result.add(q)
     return result

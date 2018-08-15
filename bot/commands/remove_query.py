@@ -5,17 +5,16 @@ from bot.commands import BaseCommand
 import mongo
 
 
-class AddQueryCommand(BaseCommand):
+class RemoveQueryCommand(BaseCommand):
 
-    _COMMAND = 'add_query'
-    _SUCCESS_MESSAGE = 'Query added'
+    _COMMAND = 'remove_query'
+    _SUCCESS_MESSAGE = 'Query removed'
 
     def _call(self, bot, update, **kwargs):
         if not kwargs['args']:
             update.message.reply_text('Query text required.')
             return
-
-        mongo.add_query(update.message.chat.id, kwargs['args'][0])
+        mongo.remove_query(update.message.chat.id, kwargs['args'][0])
         return True
 
     def get(self):
@@ -27,4 +26,4 @@ class AddQueryCommand(BaseCommand):
         )
 
 
-add_query_command = AddQueryCommand().get()
+remove_query_command = RemoveQueryCommand().get()
