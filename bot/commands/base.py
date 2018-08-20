@@ -17,7 +17,7 @@ class BaseCommand:
         """
         Return bool indicating successful execution
         """
-        pass
+        return True
 
     @telegram.ext.dispatcher.run_async
     def __call__(self, bot, update, **kwargs):
