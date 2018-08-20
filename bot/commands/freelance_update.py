@@ -6,6 +6,7 @@ import mongo
 
 class FreelanceUpdateCommand(BaseCommand):
     _COMMAND = 'freelance_update'
+    _DESCRIPTION = 'Get updates on freelance markets search'
 
     @staticmethod
     def _send_projects(update, projects):
@@ -38,6 +39,3 @@ class FreelanceUpdateCommand(BaseCommand):
             pass_args=True,
             pass_user_data=True,
         )
-
-
-freelance_update_command = FreelanceUpdateCommand().get()

@@ -9,6 +9,7 @@ class RemoveQueryCommand(BaseCommand):
 
     _COMMAND = 'remove_query'
     _SUCCESS_MESSAGE = 'Query removed'
+    _DESCRIPTION = 'Remove a stop-word for the search by freelance markets'
 
     def _call(self, bot, update, **kwargs):
         if not kwargs['args']:
@@ -24,6 +25,3 @@ class RemoveQueryCommand(BaseCommand):
             pass_args=True,
             pass_user_data=True,
         )
-
-
-remove_query_command = RemoveQueryCommand().get()

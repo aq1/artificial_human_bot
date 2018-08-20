@@ -6,12 +6,12 @@ import bot
 from utils.logging import logger
 
 commands = [
-    bot.commands.start_command,
-    bot.commands.help_command,
-    bot.commands.freelance_update_command,
-    bot.commands.get_queries_command,
-    bot.commands.add_query_command,
-    bot.commands.remove_query_command,
+    bot.commands.StartCommand(),
+    bot.commands.HelpCommand(),
+    bot.commands.FreelanceUpdateCommand(pass_args=True, pass_user_data=True),
+    bot.commands.GetQueriesCommand(),
+    bot.commands.AddQueryCommand(pass_args=True, pass_user_data=True),
+    bot.commands.RemoveQueryCommand(pass_args=True, pass_user_data=True),
 ]
 
 bot_handler = telegram.ext.ConversationHandler(
@@ -28,6 +28,8 @@ def start_bot():
     updater = telegram.ext.Updater(bot=_bot)
     dispatcher = updater.dispatcher
     dispatcher.add_handler(bot_handler)
+    logger.info('Printing available commands')
+    logger.info('\n'.join(map(str, commands)))
     logger.info('Started Bot')
     try:
         updater.start_polling(clean=True)

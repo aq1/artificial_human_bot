@@ -8,6 +8,7 @@ import mongo
 class GetQueriesCommand(BaseCommand):
 
     _COMMAND = 'get_queries'
+    _DESCRIPTION = 'Get your stop-words'
 
     def _call(self, bot, update, **kwargs):
         queries = mongo.get_queries(update.message.chat.id)
@@ -25,6 +26,3 @@ class GetQueriesCommand(BaseCommand):
             parse_mode=ParseMode.MARKDOWN,
         )
         return True
-
-
-get_queries_command = GetQueriesCommand().get()

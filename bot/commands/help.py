@@ -6,5 +6,4 @@ class HelpCommand(BaseCommand):
     _COMMAND = 'help'
     _SUCCESS_MESSAGE = 'Help message'
 
-
-help_command = HelpCommand().get()
+    _DESCRIPTION = 'Show available commands'
