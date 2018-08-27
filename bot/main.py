@@ -3,6 +3,7 @@ import telegram.ext
 
 import settings
 import bot
+import mongo
 from utils.logging import logger
 
 commands = [
@@ -23,6 +24,14 @@ bot_handler = telegram.ext.ConversationHandler(
 )
 
 
+def notify_users_about_restart(_bot):
+    for user in mongo.get_all_user():
+        _bot.send_message(
+            chat_id=user['chat_id'],
+            text='I am working now.'
+        )
+
+
 def start_bot():
     _bot = telegram.Bot(token=settings.TELEGRAM_TOKEN)
     updater = telegram.ext.Updater(bot=_bot)
@@ -31,6 +40,7 @@ def start_bot():
     logger.info('Printing available commands')
     logger.info('\n'.join(map(str, commands)))
     logger.info('Started Bot')
+    notify_users_about_restart(_bot)
     try:
         updater.start_polling(clean=True)
     except KeyboardInterrupt:

@@ -1,6 +1,7 @@
 from pymongo.errors import DuplicateKeyError
 
 from mongo.client import db
+from mongo import users
 
 
 def get_last_project_time(query):
@@ -23,6 +24,22 @@ def get_projects(query, last_project_time, limit=10):
         'query': query,
         'time_updated': {'$gt': last_project_time},
     }).limit(limit)
+
+
+def get_new_projects(chat_id, limit=10):
+    projects = []
+    user = users.get_user(chat_id)
+
+    for market, last_seen_project in user['last_seen_project'].items():
+        projects += db.projects.find({
+            'market': market,
+            'query': {'$in': user['queries']},
+            'project_id': {'$gt': last_seen_project or 0},
+        }).sort('project_id').limit(limit - len(projects))
+        if len(projects) >= limit:
+            break
+
+    return projects[:limit]
 
 
 def save_projects(projects):

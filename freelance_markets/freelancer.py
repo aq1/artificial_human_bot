@@ -18,7 +18,7 @@ def _get_from_time(query):
 
 
 def request_projects(query):
-    session = Session(oauth_token=settings.FREELANCER_OAUTH_TOKEN)
+    session = Session(oauth_token=settings.FREELANCER_TOKEN)
     search_filter = create_search_projects_filter(
         sort_field='time_updated',
         or_search_query=True,
@@ -59,6 +59,7 @@ def get_projects(query):
             'query': query,
             'market': 'freelancer',
             'project_id': each['id'],
+            'url': 'http://freelancer.com/projects/{}'.format(each['id']),
             'time_updated': functions.timestamp_to_iso_string(each['time_updated']),
             'time_submitted': functions.timestamp_to_iso_string(each['time_submitted']),
             'title': each['title'],
