@@ -35,7 +35,7 @@ class FreelanceUpdateCommand(BaseCommand):
         return '\n\n'.join(text)
 
     def _call(self, bot, update, **kwargs):
-        projects = mongo.get_new_projects(update.message.chat.id)
+        projects = mongo.projects.get_new_projects(update.message.chat.id)
         if not projects:
             update.message.reply_text('No new projects found')
             return
@@ -53,5 +53,5 @@ class FreelanceUpdateCommand(BaseCommand):
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
         )
-        mongo.update_last_seen_projects(update.message.chat.id, last_seen_projects)
+        mongo.users.update_last_seen_projects(update.message.chat.id, last_seen_projects)
         return True

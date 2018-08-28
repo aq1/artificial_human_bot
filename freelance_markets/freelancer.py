@@ -10,7 +10,7 @@ from utils import functions
 
 
 def _get_from_time(query):
-    from_time = mongo.get_last_project_time(query)
+    from_time = mongo.projects.get_last_project_time(query)
     if from_time:
         from_time = functions.iso_string_to_timestamp(from_time['freelancer'])
 

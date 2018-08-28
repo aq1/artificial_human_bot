@@ -15,7 +15,7 @@ class RemoveQueryCommand(BaseCommand):
         if not kwargs['args']:
             update.message.reply_text('Query text required.')
             return
-        mongo.remove_query(update.message.chat.id, kwargs['args'][0])
+        mongo.users.remove_query(update.message.chat.id, kwargs['args'][0])
         return True
 
     def get(self):
