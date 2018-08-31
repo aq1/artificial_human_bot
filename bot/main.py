@@ -7,7 +7,7 @@ import mongo
 from utils.logging import logger
 
 
-commands = bot.commands.common.get_commands() + bot.commands.markets.get_commands()
+commands = bot.commands.info.get_commands() + bot.commands.markets.get_commands()
 
 bot_handler = telegram.ext.ConversationHandler(
     entry_points=commands,

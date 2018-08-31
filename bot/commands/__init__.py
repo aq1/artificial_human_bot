@@ -1,2 +1,2 @@
 from bot.commands import markets
-from bot.commands import common
+from bot.commands import info
