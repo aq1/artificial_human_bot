@@ -1,5 +1,6 @@
 import telegram.ext
 
+import settings
 import mongo
 import bot
 
@@ -37,6 +38,13 @@ class BaseCommand(telegram.ext.CommandHandler):
                          pass_user_data,
                          pass_chat_data)
 
+    def _allowed_to_execute(self, bot, update):
+        return True
+
+    @property
+    def _success_message(self):
+        return self._SUCCESS_MESSAGE
+
     def _call(self, bot, update, **kwargs):
         """
         Return bool indicating successful execution
@@ -47,12 +55,21 @@ class BaseCommand(telegram.ext.CommandHandler):
     def __call__(self, bot, update, **kwargs):
         mongo.users.save_user(update.message.chat)
 
+        if not self._allowed_to_execute(bot, update):
+            return
+
         ok = self._call(bot, update, **kwargs)
 
-        if ok and self._SUCCESS_MESSAGE:
-            update.message.reply_text(self._SUCCESS_MESSAGE)
+        if ok and self._success_message:
+            update.message.reply_text(self._success_message)
 
         return self._RETURN_STATE
 
     def __str__(self):
         return '{} - {}'.format(self._COMMAND, self._DESCRIPTION)
+
+
+class AdminPermissionMixin:
+
+    def _allowed_to_execute(self, bot, update):
+        return update.message.chat.id in settings.ADMINS

@@ -4,4 +4,4 @@ from bot.commands import BaseCommand
 class StartCommand(BaseCommand):
 
     _COMMAND = 'start'
-    _SUCCESS_MESSAGE = 'Hello there.'
+    _success_message = 'Hello there.'
