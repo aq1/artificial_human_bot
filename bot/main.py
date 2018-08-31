@@ -6,14 +6,8 @@ import bot
 import mongo
 from utils.logging import logger
 
-commands = [
-    bot.commands.common.StartCommand(),
-    bot.commands.common.HelpCommand(),
-    bot.commands.markets.FreelanceUpdateCommand(pass_args=True, pass_user_data=True),
-    bot.commands.markets.GetQueriesCommand(),
-    bot.commands.markets.AddQueryCommand(pass_args=True, pass_user_data=True),
-    bot.commands.markets.RemoveQueryCommand(pass_args=True, pass_user_data=True),
-]
+
+commands = bot.commands.common.get_commands() + bot.commands.markets.get_commands()
 
 bot_handler = telegram.ext.ConversationHandler(
     entry_points=commands,
