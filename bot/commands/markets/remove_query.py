@@ -1,6 +1,6 @@
 import telegram.ext
 
-from bot.commands import BaseCommand
+from bot.commands.common import BaseCommand
 
 import mongo
 

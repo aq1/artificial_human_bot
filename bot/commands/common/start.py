@@ -1,4 +1,4 @@
-from bot.commands import BaseCommand
+from bot.commands.common import BaseCommand
 
 
 class StartCommand(BaseCommand):
