@@ -1,6 +1,6 @@
 from telegram.parsemode import ParseMode
 
-from bot.commands.common import BaseCommand
+from bot.commands import BaseCommand
 import mongo
 
 
