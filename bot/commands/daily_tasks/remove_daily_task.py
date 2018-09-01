@@ -1,5 +1,3 @@
-import telegram.ext
-
 from bot.commands import BaseCommand
 
 import mongo
@@ -21,10 +19,10 @@ class RemoveDailyTaskCommand(BaseCommand):
 
         return True
 
-    def get(self):
-        return telegram.ext.CommandHandler(
-            self._COMMAND,
-            self.__call__,
-            pass_args=True,
-            pass_user_data=True,
+    def _callback_query_execute(self, bot, update, **kwargs):
+        mongo.daily_tasks.remove_task(
+            update.callback_query.message.chat.id,
+            update.callback_query.data.split()[1],
         )
+
+        return True

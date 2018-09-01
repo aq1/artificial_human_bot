@@ -13,10 +13,15 @@ commands = (
         bot.commands.daily_tasks.get_commands()
 )
 
+callback_queries = bot.commands.daily_tasks.get_callback_queries()
+
+states = commands + callback_queries
+
+
 bot_handler = telegram.ext.ConversationHandler(
-    entry_points=commands,
+    entry_points=states,
     states={
-        bot.states.START: commands,
+        bot.states.START: states,
     },
     fallbacks=[telegram.ext.RegexHandler('\w+', lambda *args: bot.states.START)]
 )
@@ -40,6 +45,10 @@ def start_bot():
     logger.info('Started Bot')
     notify_users_about_restart(_bot)
     try:
-        updater.start_polling(clean=True, timeout=5)
+        updater.start_polling(
+            clean=True,
+            timeout=5,
+            poll_interval=0.5,
+        )
     except KeyboardInterrupt:
         logger.info('Stopped Bot')

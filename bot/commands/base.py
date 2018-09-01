@@ -49,6 +49,28 @@ class BaseCommand(telegram.ext.CommandHandler):
     def _success_message(self):
         return self._SUCCESS_MESSAGE
 
+    def _callback_query_execute(self, bot, update, **kwargs):
+        return True
+
+    def callback_query(self, bot, update, **kwargs):
+        """
+        Similar to __call__ logic, but for inline buttons callbacks
+        """
+        mongo.users.save_user(update.callback_query.message.chat)
+
+        if not self._allowed_to_execute(bot, update):
+            return
+
+        ok = self._callback_query_execute(bot, update, **kwargs)
+
+        if ok and self._success_message:
+            bot.send_message(
+                update.callback_query.message.chat.id,
+                text=self._success_message,
+            )
+
+        return self._RETURN_STATE
+
     def _call(self, bot, update, **kwargs):
         """
         Return bool indicating successful execution
@@ -57,6 +79,9 @@ class BaseCommand(telegram.ext.CommandHandler):
 
     @telegram.ext.dispatcher.run_async
     def __call__(self, bot, update, **kwargs):
+        if update.callback_query:
+            return self.callback_query(bot, update, **kwargs)
+
         mongo.users.save_user(update.message.chat)
 
         if not self._allowed_to_execute(bot, update):
@@ -76,4 +101,5 @@ class BaseCommand(telegram.ext.CommandHandler):
 class AdminPermissionMixin:
 
     def _allowed_to_execute(self, bot, update):
-        return update.message.chat.id in settings.ADMINS
+        message = update.message or update.callback_query.message
+        return message.chat.id in settings.ADMINS

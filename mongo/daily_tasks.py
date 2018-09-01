@@ -37,11 +37,18 @@ def get_tasks(chat_id):
     })
 
 
-def set_task_done(chat_id, name):
-    db.daily_tasks.update(
-        {'chat_id': chat_id, 'name': name},
-        {'$set': {'done': True}}
-    )
+def toggle_task(chat_id, name):
+    task = db.daily_tasks.find_one({
+        'chat_id': chat_id,
+        'name': name,
+    })
+
+    if not task:
+        return
+
+    task['done'] = not task['done']
+    db.daily_tasks.update({'_id': task['_id']}, task)
+    return True
 
 
 def reset_all_tasks():
