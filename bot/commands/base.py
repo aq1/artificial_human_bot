@@ -38,6 +38,10 @@ class BaseCommand(telegram.ext.CommandHandler):
                          pass_user_data,
                          pass_chat_data)
 
+    @classmethod
+    def get_command(cls):
+        return '/{}'.format(cls._COMMAND)
+
     def _allowed_to_execute(self, bot, update):
         return True
 

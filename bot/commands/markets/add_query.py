@@ -11,7 +11,7 @@ class AddQueryCommand(BaseCommand):
 
     def _call(self, bot, update, **kwargs):
         if not kwargs['args']:
-            update.message.reply_text('Query text required.')
+            update.message.reply_text('Query text is required.')
             return
 
         mongo.users.add_query(update.message.chat.id, kwargs['args'][0])

@@ -7,7 +7,11 @@ import mongo
 from utils.logging import logger
 
 
-commands = bot.commands.info.get_commands() + bot.commands.markets.get_commands()
+commands = (
+        bot.commands.info.get_commands() +
+        bot.commands.markets.get_commands() +
+        bot.commands.daily_tasks.get_commands()
+)
 
 bot_handler = telegram.ext.ConversationHandler(
     entry_points=commands,
@@ -36,6 +40,6 @@ def start_bot():
     logger.info('Started Bot')
     notify_users_about_restart(_bot)
     try:
-        updater.start_polling(clean=True)
+        updater.start_polling(clean=True, timeout=5)
     except KeyboardInterrupt:
         logger.info('Stopped Bot')

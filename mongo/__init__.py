@@ -1,3 +1,6 @@
-from mongo import client
-from mongo import projects
-from mongo import users
+from mongo import (
+    client,
+    projects,
+    users,
+    daily_tasks,
+)
