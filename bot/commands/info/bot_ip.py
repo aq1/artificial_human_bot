@@ -6,7 +6,7 @@ from bot.commands import (
 )
 
 
-class BotIPCommand(BaseCommand, AdminPermissionMixin):
+class BotIPCommand(AdminPermissionMixin, BaseCommand):
 
     _COMMAND = 'bot_ip'
 

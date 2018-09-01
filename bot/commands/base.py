@@ -103,3 +103,6 @@ class AdminPermissionMixin:
     def _allowed_to_execute(self, bot, update):
         message = update.message or update.callback_query.message
         return message.chat.id in settings.ADMINS
+
+    def __str__(self):
+        return ''

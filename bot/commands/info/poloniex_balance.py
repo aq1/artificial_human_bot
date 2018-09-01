@@ -4,7 +4,7 @@ from bot.commands import (
 )
 
 
-class PoloniexBalanceCommand(BaseCommand, AdminPermissionMixin):
+class PoloniexBalanceCommand(AdminPermissionMixin, BaseCommand):
 
     _COMMAND = 'poloniex_balance'
 
