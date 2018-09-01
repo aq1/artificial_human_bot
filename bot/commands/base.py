@@ -90,7 +90,10 @@ class BaseCommand(telegram.ext.CommandHandler):
         ok = self._call(bot, update, **kwargs)
 
         if ok and self._success_message:
-            update.message.reply_text(self._success_message)
+            update.message.reply_text(
+                text=self._success_message,
+                parse_mode=telegram.ParseMode.MARKDOWN,
+            )
 
         return self._RETURN_STATE
 

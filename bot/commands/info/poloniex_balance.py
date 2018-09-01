@@ -1,3 +1,11 @@
+import hmac
+import hashlib
+import time
+import urllib.parse
+
+import requests
+
+import settings
 from bot.commands import (
     BaseCommand,
     AdminPermissionMixin,
@@ -8,6 +16,43 @@ class PoloniexBalanceCommand(AdminPermissionMixin, BaseCommand):
 
     _COMMAND = 'poloniex_balance'
 
+    @staticmethod
+    def get_currencies_rate():
+        post_data = urllib.parse.urlencode({
+            'command': 'returnAvailableAccountBalances',
+            'nonce': int(time.time() * 1000)
+        }).encode('utf-8')
+        sign = hmac.new(settings.POLONIEX_SECRET, post_data, hashlib.sha512).hexdigest()
+        response = requests.post(
+            'https://poloniex.com/tradingApi',
+            data=post_data,
+            headers={
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Key': settings.POLONIEX_KEY,
+                'Sign': sign,
+            }
+        )
+
+        rates = requests.get('https://poloniex.com/public?command=returnTicker').json()
+        data = response.json()
+        result = []
+        for currency_name, currency_amount in data.get('exchange', {}).items():
+            currency_amount = round(float(currency_amount), 8)
+            rate = float(rates['USDT_{}'.format(currency_name)].get('highestBid'))
+            result.append({
+                'name': currency_name,
+                'amount': currency_amount,
+                'rate': rate,
+                'amount_usdt': currency_amount * rate,
+            })
+
+        return sorted(result, key=lambda val: val['name'])
+
     @property
     def _success_message(self):
-        return 'poloniex_balance'
+        currencies = self.get_currencies_rate()
+        text = (
+            '*{name}*\n1 *{name}* = {rate:.2f} USDT\n'
+            'You have {amount:.5f} {name} or *{amount_usdt:.2f} USDT*'
+        )
+        return '\n'.join([text.format(**currency) for currency in currencies])
