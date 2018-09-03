@@ -2,8 +2,8 @@ import time
 import datetime
 
 
-def datetime_to_timestamp(datetime):
-    return int(time.mktime(datetime.timetuple()))
+def datetime_to_timestamp(_datetime):
+    return int(time.mktime(_datetime.timetuple()))
 
 
 def iso_string_to_timestamp(iso_string):
@@ -12,3 +12,7 @@ def iso_string_to_timestamp(iso_string):
 
 def timestamp_to_iso_string(timestamp):
     return datetime.datetime.fromtimestamp(timestamp).isoformat()
+
+
+def get_today_midnight():
+    return datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)

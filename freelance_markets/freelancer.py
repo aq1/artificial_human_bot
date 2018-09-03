@@ -4,17 +4,8 @@ from freelancersdk.resources.projects.helpers import create_search_projects_filt
 from freelancersdk.resources.projects.exceptions import ProjectsNotFoundException
 
 import settings
-import mongo
 from utils.logging import logger
 from utils import functions
-
-
-def _get_from_time(query):
-    from_time = mongo.projects.get_last_project_time(query)
-    if from_time:
-        from_time = functions.iso_string_to_timestamp(from_time['freelancer'])
-
-    return from_time
 
 
 def request_projects(query):
@@ -22,7 +13,7 @@ def request_projects(query):
     search_filter = create_search_projects_filter(
         sort_field='time_updated',
         or_search_query=True,
-        from_time=_get_from_time(query),
+        from_time=functions.get_today_midnight(),
     )
 
     result = []

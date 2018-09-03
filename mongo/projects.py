@@ -1,4 +1,4 @@
-from pymongo.errors import DuplicateKeyError
+import pymongo
 
 from mongo.client import db
 from mongo import users
@@ -31,11 +31,15 @@ def get_new_projects(chat_id, limit=10):
     user = users.get_user(chat_id)
 
     for market, last_seen_project in user['last_seen_project'].items():
-        projects += db.projects.find({
+        query = {
             'market': market,
             'query': {'$in': user['queries']},
-            'project_id': {'$gt': last_seen_project or 0},
-        }).sort('project_id').limit(limit - len(projects))
+        }
+
+        if last_seen_project:
+            query['project_id'] = {'$lt': last_seen_project}
+
+        projects += db.projects.find(query).sort('project_id', pymongo.DESCENDING).limit(limit - len(projects))
         if len(projects) >= limit:
             break
 
@@ -43,11 +47,14 @@ def get_new_projects(chat_id, limit=10):
 
 
 def save_projects(projects):
-    count = 0
+    inserted, updated = 0, 0
     for project in projects:
-        try:
-            db.projects.save(project)
-        except DuplicateKeyError:
-            continue
-        count += 1
-    return count
+        result = db.projects.update(
+            {'market': project['market'], 'project_id': project['project_id']},
+            project,
+            upsert=True
+        )
+        inserted += int(not result['updatedExisting'])
+        updated += int(result['updatedExisting'])
+
+    return inserted, updated

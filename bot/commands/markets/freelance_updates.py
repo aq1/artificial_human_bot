@@ -12,8 +12,10 @@ class FreelanceUpdateCommand(BaseCommand):
     def _format_projects(projects):
         def _format_single_project(p):
             p['market'] = p['market'].title()
+            p['time_updated'] = p['time_updated'].replace('T', ' ')
 
             t = (
+                '{p[time_updated]}\n'
                 '*{p[market]}* {p[type]}\n'
                 '[{p[title]}]({p[url]})\n'
                 '${p[budget][min]} - ${p[budget][max]}'
