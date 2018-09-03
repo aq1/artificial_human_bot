@@ -39,8 +39,11 @@ class BaseCommand(telegram.ext.CommandHandler):
                          pass_chat_data)
 
     @classmethod
-    def get_command(cls):
-        return '/{}'.format(cls._COMMAND)
+    def get_command(cls, markdown=False):
+        command = '/{}'.format(cls._COMMAND)
+        if markdown:
+            command = command.replace('_', '\_')
+        return command
 
     def _allowed_to_execute(self, bot, update):
         return True

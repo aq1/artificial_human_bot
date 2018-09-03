@@ -3,7 +3,7 @@ from pymongo.errors import DuplicateKeyError
 from mongo.client import db
 
 
-def get_all_user():
+def get_all_users():
     return db.users.find({})
 
 

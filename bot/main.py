@@ -28,15 +28,19 @@ bot_handler = telegram.ext.ConversationHandler(
 
 
 def notify_users_about_restart(_bot):
-    for user in mongo.users.get_all_user():
+    for user in mongo.users.get_all_users():
         _bot.send_message(
             chat_id=user['chat_id'],
             text='I am working now.'
         )
 
 
+def get_bot():
+    return telegram.Bot(token=settings.TELEGRAM_TOKEN)
+
+
 def start_bot():
-    _bot = telegram.Bot(token=settings.TELEGRAM_TOKEN)
+    _bot = get_bot()
     updater = telegram.ext.Updater(bot=_bot)
     dispatcher = updater.dispatcher
     dispatcher.add_handler(bot_handler)

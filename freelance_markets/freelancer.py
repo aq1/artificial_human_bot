@@ -13,7 +13,7 @@ def request_projects(query):
     search_filter = create_search_projects_filter(
         sort_field='time_updated',
         or_search_query=True,
-        from_time=functions.get_today_midnight(),
+        from_time=functions.get_today_midnight(as_a_timestamp=True),
     )
 
     result = []

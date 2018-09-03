@@ -26,7 +26,7 @@ def get_projects(query, last_project_time, limit=10):
     }).limit(limit)
 
 
-def get_new_projects(chat_id, limit=10):
+def get_new_projects(chat_id, limit=20):
     projects = []
     user = users.get_user(chat_id)
 
@@ -34,10 +34,8 @@ def get_new_projects(chat_id, limit=10):
         query = {
             'market': market,
             'query': {'$in': user['queries']},
+            'project_id': {'$gt': last_seen_project or 0}
         }
-
-        if last_seen_project:
-            query['project_id'] = {'$lt': last_seen_project}
 
         projects += db.projects.find(query).sort('project_id', pymongo.DESCENDING).limit(limit - len(projects))
         if len(projects) >= limit:

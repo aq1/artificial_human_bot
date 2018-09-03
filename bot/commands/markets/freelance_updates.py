@@ -9,6 +9,23 @@ class FreelanceUpdateCommand(BaseCommand):
     _DESCRIPTION = 'Get new projects from freelance markets'
 
     @staticmethod
+    def get_last_seen_projects(projects):
+        last_seen_projects = {}
+        for project in projects:
+            last_seen_projects[project['market']] = max((
+                last_seen_projects.get(project['market'], 0),
+                project['project_id'],
+            ))
+
+        return last_seen_projects
+
+    def _format_message(self, projects):
+        return '{}\n\nSend {} for more projects'.format(projects, self.get_command(markdown=True))
+
+    def get_message(self, projects):
+        return self._format_message(self._format_projects(projects))
+
+    @staticmethod
     def _format_projects(projects):
         def _format_single_project(p):
             p['market'] = p['market'].title()
@@ -42,16 +59,10 @@ class FreelanceUpdateCommand(BaseCommand):
             update.message.reply_text('No new projects found')
             return
 
-        last_seen_projects = {}
-        for project in projects:
-            last_seen_projects[project['market']] = max((
-                last_seen_projects.get(project['market'], 0),
-                project['project_id'],
-            ))
+        last_seen_projects = self.get_last_seen_projects(projects)
 
-        text = self._format_projects(projects)
         update.message.reply_text(
-            '{}\n\nSend /{} for more projects'.format(text, self._COMMAND.replace('_', '\_')),
+            self.get_message(projects),
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
         )
