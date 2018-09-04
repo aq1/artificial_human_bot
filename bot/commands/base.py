@@ -28,15 +28,17 @@ class BaseCommand(telegram.ext.CommandHandler):
         command = command or self._COMMAND
         callback = callback or self.__call__
 
-        super().__init__(command,
-                         callback,
-                         filters,
-                         allow_edited,
-                         pass_args,
-                         pass_update_queue,
-                         pass_job_queue,
-                         pass_user_data,
-                         pass_chat_data)
+        super().__init__(
+            command,
+            callback,
+            filters,
+            allow_edited,
+            pass_args,
+            pass_update_queue,
+            pass_job_queue,
+            pass_user_data,
+            pass_chat_data,
+        )
 
     @classmethod
     def get_command(cls, markdown=False):
@@ -49,7 +51,7 @@ class BaseCommand(telegram.ext.CommandHandler):
         return True
 
     @property
-    def _success_message(self):
+    def success_message(self):
         return self._SUCCESS_MESSAGE
 
     def _callback_query_execute(self, bot, update, **kwargs):
@@ -66,10 +68,10 @@ class BaseCommand(telegram.ext.CommandHandler):
 
         ok = self._callback_query_execute(bot, update, **kwargs)
 
-        if ok and self._success_message:
+        if ok and self.success_message:
             bot.send_message(
                 update.callback_query.message.chat.id,
-                text=self._success_message,
+                text=self.success_message,
             )
 
         return self._RETURN_STATE
@@ -91,10 +93,11 @@ class BaseCommand(telegram.ext.CommandHandler):
             return
 
         ok = self._call(bot, update, **kwargs)
+        text = self.success_message
 
-        if ok and self._success_message:
+        if ok and text:
             update.message.reply_text(
-                text=self._success_message,
+                text=text,
                 parse_mode=telegram.ParseMode.MARKDOWN,
             )
 
@@ -104,7 +107,7 @@ class BaseCommand(telegram.ext.CommandHandler):
         return '{} - {}'.format(self._COMMAND, self._DESCRIPTION)
 
 
-class AdminPermissionMixin:
+class AdminBaseCommand(BaseCommand):
 
     def _allowed_to_execute(self, bot, update):
         message = update.message or update.callback_query.message

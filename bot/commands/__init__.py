@@ -1,6 +1,6 @@
 from bot.commands.base import (
     BaseCommand,
-    AdminPermissionMixin,
+    AdminBaseCommand,
 )
 from bot.commands import (
     markets,

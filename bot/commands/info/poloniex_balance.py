@@ -7,12 +7,11 @@ import requests
 
 import settings
 from bot.commands import (
-    BaseCommand,
-    AdminPermissionMixin,
+    AdminBaseCommand,
 )
 
 
-class PoloniexBalanceCommand(AdminPermissionMixin, BaseCommand):
+class PoloniexBalanceCommand(AdminBaseCommand):
 
     _COMMAND = 'poloniex_balance'
 
@@ -49,7 +48,7 @@ class PoloniexBalanceCommand(AdminPermissionMixin, BaseCommand):
         return sorted(result, key=lambda val: val['name'])
 
     @property
-    def _success_message(self):
+    def success_message(self):
         currencies = self.get_currencies_rate()
         text = (
             '*{name}*\n1 *{name}* = {rate:.2f} USDT\n'

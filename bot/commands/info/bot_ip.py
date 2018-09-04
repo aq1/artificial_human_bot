@@ -1,17 +1,16 @@
 import requests
 
 from bot.commands import (
-    BaseCommand,
-    AdminPermissionMixin,
+    AdminBaseCommand,
 )
 
 
-class BotIPCommand(AdminPermissionMixin, BaseCommand):
+class BotIPCommand(AdminBaseCommand):
 
     _COMMAND = 'bot_ip'
 
     @property
-    def _success_message(self):
+    def success_message(self):
         try:
             ip = requests.get('https://api.ipify.org?format=json').json()['ip']
         except (requests.HTTPError, ValueError, TypeError) as e:
