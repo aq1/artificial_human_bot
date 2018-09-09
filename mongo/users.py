@@ -32,12 +32,13 @@ def save_user(user):
             'first_name': user.first_name,
             'last_name': user.last_name,
             'queries': [],
+            'storage': [],
             'last_seen_project': {
                 'freelancer': None,
                 'upwork': None,
                 'guru': None,
                 'people_per_hour': None,
-            }
+            },
         })
     except DuplicateKeyError:
         pass
@@ -58,3 +59,18 @@ def get_queries(chat_id=None):
         for q in user['queries']:
             result.add(q)
     return result
+
+
+def add_to_storage(chat_id, text):
+
+    db.users.update(
+        {'chat_id': chat_id},
+        {'$addToSet': {'storage': text}}
+    )
+
+
+def list_storage(chat_id):
+    try:
+        return db.users.find_one({'chat_id': chat_id})['storage']
+    except (TypeError, KeyError):
+        return []

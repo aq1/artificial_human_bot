@@ -6,4 +6,5 @@ from bot.commands import (
     markets,
     info,
     daily_tasks,
+    storage,
 )
