@@ -21,7 +21,7 @@ class PoloniexBalanceCommand(AdminBaseCommand):
             'command': 'returnAvailableAccountBalances',
             'nonce': int(time.time() * 1000)
         }).encode('utf-8')
-        sign = hmac.new(settings.POLONIEX_SECRET, post_data, hashlib.sha512).hexdigest()
+        sign = hmac.new(settings.POLONIEX_SECRET.encode('utf8'), post_data, hashlib.sha512).hexdigest()
         response = requests.post(
             'https://poloniex.com/tradingApi',
             data=post_data,
