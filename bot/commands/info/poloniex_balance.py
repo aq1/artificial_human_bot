@@ -37,7 +37,10 @@ class PoloniexBalanceCommand(AdminBaseCommand):
         result = []
         for currency_name, currency_amount in data.get('exchange', {}).items():
             currency_amount = round(float(currency_amount), 8)
-            rate = float(rates['USDT_{}'.format(currency_name)].get('highestBid'))
+            try:
+                rate = float(rates['USDT_{}'.format(currency_name)].get('highestBid'))
+            except KeyError:
+                rate = 0
             result.append({
                 'name': currency_name,
                 'amount': currency_amount,
