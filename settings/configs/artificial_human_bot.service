@@ -1,0 +1,6 @@
+[Unit]
+Description=Artificial Human Interface Bot
+
+[Service]
+ExecStart=/_projects/artificial_human_bot/.env/bin/python /_projects/artificial_human_bot/manage.py
+PIDFile=/var/run/artificial_human_bot.pid
