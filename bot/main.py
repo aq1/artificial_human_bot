@@ -28,10 +28,10 @@ bot_handler = telegram.ext.ConversationHandler(
 )
 
 
-def notify_users_about_restart(_bot):
-    for user in mongo.users.get_all_users():
+def notify_admin_about_restart(_bot):
+    for chat_id in settings.ADMINS:
         _bot.send_message(
-            chat_id=user['chat_id'],
+            chat_id=chat_id,
             text='I am working now.'
         )
 
@@ -48,7 +48,7 @@ def start_bot():
     logger.info('Printing available commands')
     logger.info('\n'.join(map(str, commands)))
     logger.info('Started Bot')
-    notify_users_about_restart(_bot)
+    notify_admin_about_restart(_bot)
     try:
         updater.start_polling(
             clean=True,
