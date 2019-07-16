@@ -1,3 +1,4 @@
+import random
 import telegram
 
 from bot.commands import BaseCommand
@@ -11,12 +12,15 @@ class LennyCommand(BaseCommand):
     _DESCRIPTION = 'Gives you {}'.format(_SUCCESS_MESSAGE)
 
     def _call(self, bot, update, **kwargs):
-        if str(update.message.from_user.id) == '387116733':
-            bot.send_message(
-                update.message.chat_id,
-                text='Ой, Федя иди нафиг',
-                parse_mode=telegram.ParseMode.MARKDOWN,
-            )
-            return False
+        if str(update.message.from_user.id) != '387116733':
+            return True
 
-        return True
+        if random.randint(0, 1) == 0:
+            return
+
+        bot.send_message(
+            update.message.chat_id,
+            text='Ой, Федя иди нафиг',
+            parse_mode=telegram.ParseMode.MARKDOWN,
+        )
+        return False
