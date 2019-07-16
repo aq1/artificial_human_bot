@@ -96,7 +96,8 @@ class BaseCommand(telegram.ext.CommandHandler):
         text = self.success_message
 
         if ok and text:
-            update.message.reply_text(
+            bot.send_message(
+                update.message.chat.id,
                 text=text,
                 parse_mode=telegram.ParseMode.MARKDOWN,
             )
