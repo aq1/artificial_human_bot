@@ -15,8 +15,8 @@ class LennyCommand(BaseCommand):
         if str(update.message.from_user.id) != '387116733':
             return True
 
-        if random.randint(0, 1) == 0:
-            return
+        if random.randint(0, 2) == 0:
+            return True
 
         bot.send_message(
             update.message.chat_id,
