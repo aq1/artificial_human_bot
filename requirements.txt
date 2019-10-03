@@ -5,3 +5,4 @@ freelancersdk
 pymongo
 celery
 redis
+beautifulsoup4

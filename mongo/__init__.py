@@ -3,4 +3,5 @@ from mongo import (
     projects,
     users,
     daily_tasks,
+    emojis,
 )
