@@ -77,7 +77,7 @@ def create_emoji_commands():
         return EmojiCommand
 
     commands = [
-        _emoji_command(command['_id'])
+        _emoji_command(command['_id'])()
         for command in mongo.emojis.get_emojis()
     ]
 
