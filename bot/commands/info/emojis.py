@@ -1,13 +1,9 @@
 import random
 
 import telegram
-import requests
-
-from bs4 import BeautifulSoup
 
 import settings
 from bot.commands import (
-    AdminBaseCommand,
     BaseCommand,
 )
 
@@ -21,6 +17,20 @@ class BaseEmojiCommand(BaseCommand):
             parse_mode=telegram.ParseMode.HTML,
         )
         return True
+
+
+class ListEmojis(BaseCommand):
+
+    _COMMAND = 'emojis'
+    _DESCRIPTION = 'Get list of emojis'
+
+    @property
+    def success_message(self):
+        emojis = list(settings.EMOJIS.keys())
+        text = '\n'.join([
+            '\t'.join(emojis[i:i + 3]) for i in range(0, len(emojis), 3)
+        ])
+        return text
 
 
 def create_emoji_commands():
