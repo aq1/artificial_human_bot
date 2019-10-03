@@ -26,9 +26,9 @@ class ListEmojis(BaseCommand):
 
     @property
     def success_message(self):
-        emojis = [r'\{}'.format(k) for k in settings.EMOJIS.keys()]
+        emojis = [r'/{}'.format(k) for k in settings.EMOJIS.keys()]
         text = '\n'.join([
-            '\\t'.join(emojis[i:i + 3]) for i in range(0, len(emojis), 3)
+            '\t'.join(emojis[i:i + 3]) for i in range(0, len(emojis), 3)
         ])
         return text
 
