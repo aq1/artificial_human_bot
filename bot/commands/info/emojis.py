@@ -30,7 +30,7 @@ def update_emojis():
                 emojis.append(td.text)
                 break
         if emojis:
-            mongo.emojis.update_emojis(name.text, emojis)
+            mongo.emojis.update_emojis(name.text.lower(), emojis)
 
 
 class UpdateEmojisCommand(AdminBaseCommand):
