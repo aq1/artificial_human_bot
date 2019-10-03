@@ -79,7 +79,7 @@ def create_emoji_commands():
         return EmojiCommand
 
     commands = [
-        _emoji_command(command['_id'])()
+        _emoji_command(command)()
         for command in emojis.keys()
     ]
 
