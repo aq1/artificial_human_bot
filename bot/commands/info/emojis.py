@@ -30,7 +30,7 @@ def update_emojis():
                 emojis.append(td.text)
                 break
         if emojis:
-            mongo.emojis.update_emojis(name, emojis)
+            mongo.emojis.update_emojis(name.text, emojis)
 
 
 class UpdateEmojisCommand(AdminBaseCommand):
@@ -71,7 +71,8 @@ def create_emoji_commands():
 
     def _emoji_command(name):
         class EmojiCommand(BaseEmojiCommand):
-            _COMMAND = name
+            _COMMAND = name.lower()
+            _DESCRIPTION = 'Random {} emoji'.format(name.lower())
 
         return EmojiCommand
 
