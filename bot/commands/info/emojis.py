@@ -12,25 +12,7 @@ from bot.commands import (
 )
 
 
-def update_emojis():
-    html = BeautifulSoup(
-        requests.get('http://kaomoji.ru/en/').text,
-        features='lxml',
-    )
-
-    tags = zip(
-        html.find_all('h3'),
-        html.find_all('table', {'class': 'table_kaomoji'}),
-    )
-
-    for name, table in tags:
-        emojis = []
-        for tr in table.find_all('tr'):
-            for td in tr.find_all('td'):
-                emojis.append(td.text)
-                break
-        if emojis:
-            mongo.emojis.update_emojis(name.text.lower(), emojis)
+emojis = {}
 
 
 class UpdateEmojisCommand(AdminBaseCommand):
@@ -38,9 +20,30 @@ class UpdateEmojisCommand(AdminBaseCommand):
     _COMMAND = 'update_emojis'
     _SUCCESS_MESSAGE = 'Updated emojis'
 
+    @staticmethod
+    def update_emojis():
+        html = BeautifulSoup(
+            requests.get('http://kaomoji.ru/en/').text,
+            features='lxml',
+        )
+
+        tags = zip(
+            html.find_all('h3'),
+            html.find_all('table', {'class': 'table_kaomoji'}),
+        )
+
+        for name, table in tags:
+            parsed_emojis = []
+            for tr in table.find_all('tr'):
+                for td in tr.find_all('td'):
+                    parsed_emojis.append(td.text)
+                    break
+            if parsed_emojis:
+                emojis[name.text.lower()] = parsed_emojis
+
     def _call(self, bot, update, **kwargs):
         try:
-            update_emojis()
+            self.update_emojis()
         except Exception as e:
             bot.send_message(
                 update.message.chat.id,
@@ -57,14 +60,13 @@ class BaseEmojiCommand(BaseCommand):
     def _call(self, bot, update, **kwargs):
         bot.send_message(
             update.message.chat.id,
-            text=random.choice(
-                mongo.emojis.get_emojis(
-                    self._COMMAND
-                )['emojis']
-            ),
+            text=random.choice(emojis[self._COMMAND]),
             parse_mode=telegram.ParseMode.HTML,
         )
         return True
+
+
+UpdateEmojisCommand.update_emojis()
 
 
 def create_emoji_commands():
@@ -78,7 +80,7 @@ def create_emoji_commands():
 
     commands = [
         _emoji_command(command['_id'])()
-        for command in mongo.emojis.get_emojis()
+        for command in emojis.keys()
     ]
 
     return commands
