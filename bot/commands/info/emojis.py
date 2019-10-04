@@ -14,7 +14,6 @@ class BaseEmojiCommand(BaseCommand):
         bot.send_message(
             update.message.chat.id,
             text=random.choice(settings.EMOJIS[self._COMMAND]),
-            parse_mode=telegram.ParseMode.HTML,
         )
         return True
 
