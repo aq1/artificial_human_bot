@@ -34,7 +34,7 @@ class MarkCommand(BaseCommand):
             mark_window = int(kwargs['args'][1])
             length = int(kwargs['args'][2])
         except (KeyError, IndexError):
-            user_id = update.message.chat.id
+            user_id = update.message.from_user.id
             mark_window = 1
             length = 20
         except ValueError:
