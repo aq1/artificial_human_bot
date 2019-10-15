@@ -106,5 +106,6 @@ venv.bak/
 # Custom
 .idea/
 settings_local.py
+parsed_messages.json
 logs/
 celerybeat-schedule.db
