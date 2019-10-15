@@ -54,11 +54,14 @@ class MarkCommand(BaseCommand):
             for k, v in mark[key].items():
                 choices.append(k)
                 weights.append(v / total)
-            word = random.choices(
-                population=choices,
-                weights=weights,
-                k=1,
-            )[0]
+            try:
+                word = random.choices(
+                    population=choices,
+                    weights=weights,
+                    k=1,
+                )[0]
+            except IndexError:
+                break
             sentence.append(word)
             if word == '.':
                 break
