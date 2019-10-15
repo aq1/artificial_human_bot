@@ -32,13 +32,13 @@ class MarkCommand(BaseCommand):
 
     def _call(self, bot, update, **kwargs):
         try:
-            user_id = kwargs['args'][0]
-            mark_window = int(kwargs['args'][1])
-            length = int(kwargs['args'][2])
+            mark_window = int(kwargs['args'][0])
+            length = int(kwargs['args'][1])
+            user_id = kwargs['args'][2]
         except (KeyError, IndexError):
+            mark_window = 2
+            length = 50
             user_id = update.message.from_user.id
-            mark_window = 1
-            length = 20
         except ValueError:
             update.message.reply_text('Bad arguments')
             return 
@@ -65,11 +65,9 @@ class MarkCommand(BaseCommand):
             except IndexError:
                 break
             sentence.append(word)
-            if word == '.':
-                break
             key = tuple(sentence[-mark_window:])
     
-        sentence = ' '.join(sentence).capitalize().replace(' .', '.')
+        sentence = ' '.join(sentence).capitalize()
         bot.send_message(
             update.message.chat.id,
             text=sentence,
