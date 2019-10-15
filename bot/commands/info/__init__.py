@@ -5,6 +5,7 @@ from bot.commands.info.poloniex_balance import PoloniexBalanceCommand
 from bot.commands.info.my_chat_id import MyChatIDCommand
 from bot.commands.info.lenny import LennyCommand
 from bot.commands.info.shruggie import ShruggieCommand
+from bot.commands.info.mark import MarkCommand
 from bot.commands.info.emojis import (
     ListEmojis,
     create_emoji_commands,
@@ -13,12 +14,13 @@ from bot.commands.info.emojis import (
 
 def get_commands():
     return [
-        StartCommand(),
-        HelpCommand(),
-        BotIPCommand(),
-        PoloniexBalanceCommand(),
-        MyChatIDCommand(),
-        LennyCommand(),
-        ShruggieCommand(),
-        ListEmojis(),
-    ] + create_emoji_commands()
+               StartCommand(),
+               HelpCommand(),
+               BotIPCommand(),
+               PoloniexBalanceCommand(),
+               MyChatIDCommand(),
+               LennyCommand(),
+               ShruggieCommand(),
+               ListEmojis(),
+               MarkCommand(),
+           ] + create_emoji_commands()
