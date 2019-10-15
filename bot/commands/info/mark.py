@@ -16,8 +16,8 @@ def get_mark_model(window=1):
     
     for user_id, messages in all_messages.items():
         user_id = int(user_id)
+        mark[user_id] = defaultdict(lambda: defaultdict(int))
         for i in range(window, len(messages) - window, window):
-            mark[user_id] = defaultdict(lambda: defaultdict(int))
             mark[user_id][tuple(messages[i - window:i])][messages[i]] += 1
             
     return mark
