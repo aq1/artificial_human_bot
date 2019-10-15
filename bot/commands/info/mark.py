@@ -1,8 +1,10 @@
+import os
 import json
 import random
 from collections import defaultdict
 from functools import lru_cache
 
+import settings
 from bot.commands import (
     BaseCommand,
 )
@@ -11,7 +13,7 @@ from bot.commands import (
 @lru_cache()
 def get_mark_model(window=1):
     mark = dict()
-    with open('settings/parsed_messages.json', 'r', encoding='utf8') as f:
+    with open(os.path.join(settings.BASE_DIR, 'settings', 'parsed_messages.json'), 'r', encoding='utf8') as f:
         all_messages = json.load(f)
     
     for user_id, messages in all_messages.items():
