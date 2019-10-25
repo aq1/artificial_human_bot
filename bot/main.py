@@ -6,14 +6,12 @@ import bot
 from utils.logging import logger
 
 
-# commands = (
-#         bot.commands.info.get_commands() +
-#         bot.commands.markets.get_commands() +
-#         bot.commands.daily_tasks.get_commands() +
-#         bot.commands.storage.get_commands()
-# )
-
-commands = bot.commands.info.get_commands()
+commands = (
+        bot.commands.info.get_commands() +
+        bot.commands.markets.get_commands()
+        # bot.commands.daily_tasks.get_commands() +
+        # bot.commands.storage.get_commands()
+)
 
 # callback_queries = bot.commands.daily_tasks.get_callback_queries()
 callback_queries = []

@@ -1,6 +1,6 @@
 python_telegram_bot
 requests
-python_upwork
+# python_upwork
 freelancersdk
 pymongo
 celery
