@@ -32,8 +32,8 @@ class FreelanceUpdateCommand(BaseCommand):
             p['time_updated'] = p['time_updated'].replace('T', ' ')
 
             t = (
-                '{p[time_updated]}\n'
-                '*{p[market]}* {p[type]}\n'
+                # '{p[time_updated]}\n'
+                # '*{p[market]}* {p[type]}\n'
                 '[{p[title]}]({p[url]})\n'
                 '${p[budget][min]} - ${p[budget][max]}'
             ).format(p=p).strip()
@@ -51,7 +51,10 @@ class FreelanceUpdateCommand(BaseCommand):
         for project in projects:
             text.append(_format_single_project(project))
 
-        return '\n\n'.join(text)
+        return 'Projects: {}\n{}'.format(
+            len(projects),
+            '\n'.join(text),
+        )
 
     def _call(self, bot, update, **kwargs):
         projects = mongo.projects.get_new_projects(update.message.chat.id)
