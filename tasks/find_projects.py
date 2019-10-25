@@ -31,3 +31,7 @@ def find_projects():
     inserted, _ = freelance_markets.find_projects()
     if inserted:
         notify_users_about_new_projects()
+
+
+if __name__ == '__main__':
+    find_projects()
