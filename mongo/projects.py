@@ -37,7 +37,7 @@ def get_new_projects(chat_id, limit=20):
             'project_id': {'$gt': last_seen_project or 0}
         }
 
-        projects += db.projects.find(query).sort('project_id', pymongo.DESCENDING).limit(limit - len(projects))
+        projects += db.projects.find(query).sort('project_id', pymongo.ASCENDING).limit(limit - len(projects))
         if len(projects) >= limit:
             break
 
