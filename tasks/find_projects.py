@@ -1,9 +1,11 @@
 from telegram import ParseMode
 
+import mongo
+import bot
+import freelance_markets
+
 
 def notify_users_about_new_projects():
-    import bot
-    import mongo
 
     _bot = bot.get_bot()
     freelance_update_command = bot.commands.markets.FreelanceUpdateCommand()
@@ -26,8 +28,6 @@ def notify_users_about_new_projects():
 
 
 def find_projects():
-    import freelance_markets
-
     inserted, _ = freelance_markets.find_projects()
     if inserted:
         notify_users_about_new_projects()
