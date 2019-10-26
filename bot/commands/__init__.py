@@ -4,7 +4,7 @@ from bot.commands.base import (
 )
 from bot.commands import (
     markets,
-    info,
+    common,
     daily_tasks,
     storage,
 )

@@ -71,8 +71,8 @@ def send_info():
     import bot
 
     _bot = bot.get_bot()
-    bot_ip_command = bot.commands.info.BotIPCommand()
-    poloniex_balance_command = bot.commands.info.PoloniexBalanceCommand()
+    bot_ip_command = bot.commands.common.BotIPCommand()
+    poloniex_balance_command = bot.commands.common.PoloniexBalanceCommand()
 
     for text in (bot_ip_command.success_message, poloniex_balance_command.success_message):
         for chat_id in settings.ADMINS:
