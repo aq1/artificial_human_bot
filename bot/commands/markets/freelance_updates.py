@@ -35,11 +35,11 @@ class FreelanceUpdateCommand(BaseCommand):
                 # '{p[time_updated]}\n'
                 # '*{p[market]}* {p[type]}\n'
                 '[{p[title]}]({p[url]})\n'
-                '${p[budget][min]} - ${p[budget][max]}'
+                '${p[budget][min]:.3} - ${p[budget][max]:.3}'
             ).format(p=p).strip()
 
             if p.get('hourly_info'):
-                t = '{}\n{} hours per {}'.format(
+                t = '{:.3}\n{:.3} hours per {:.3}'.format(
                     t,
                     p['hourly_info']['commitment']['hours'],
                     p['hourly_info']['commitment']['interval'],
