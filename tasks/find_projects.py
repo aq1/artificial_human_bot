@@ -22,6 +22,7 @@ def notify_users_about_new_projects():
             text=freelance_update_command.get_message(projects),
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
+            disable_notification=True,
         )
         mongo.users.update_last_seen_projects(user['chat_id'], last_seen_projects)
         return True
