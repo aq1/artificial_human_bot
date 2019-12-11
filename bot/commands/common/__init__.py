@@ -6,6 +6,7 @@ from bot.commands.common.my_chat_id import MyChatIDCommand
 from bot.commands.common.lenny import LennyCommand
 from bot.commands.common.shruggie import ShruggieCommand
 from bot.commands.common.mark import MarkCommand
+from bot.commands.common.shame import ShameCommand
 from bot.commands.common.emojis import (
     ListEmojis,
     create_emoji_commands,
@@ -23,4 +24,5 @@ def get_commands():
                ShruggieCommand(),
                ListEmojis(),
                MarkCommand(),
+               ShameCommand(),
            ] + create_emoji_commands()
