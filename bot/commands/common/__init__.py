@@ -23,6 +23,6 @@ def get_commands():
                LennyCommand(),
                ShruggieCommand(),
                ListEmojis(),
-               MarkCommand(),
+               MarkCommand(pass_args=True),
                ShameCommand(),
            ] + create_emoji_commands()
