@@ -30,11 +30,11 @@ class MarkCommand(BaseCommand):
     _COMMAND = 'mark'
     _DESCRIPTION = 'Generate message'
 
-    def _call(self, bot, update, **kwargs):
+    def _call(self, update, context):
         try:
-            mark_window = int(kwargs['args'][0])
-            length = int(kwargs['args'][1])
-            user_id = kwargs['args'][2]
+            mark_window = int(context.args[0])
+            length = int(context.args[1])
+            user_id = context.args[2]
         except (KeyError, IndexError):
             mark_window = 2
             length = 50
@@ -68,7 +68,7 @@ class MarkCommand(BaseCommand):
             key = tuple(sentence[-mark_window:])
     
         sentence = ' '.join(sentence).capitalize()
-        bot.send_message(
+        context.bot.send_message(
             update.message.chat.id,
             text=sentence,
         )

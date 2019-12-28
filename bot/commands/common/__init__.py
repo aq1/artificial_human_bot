@@ -24,7 +24,7 @@ def get_commands():
                LennyCommand(),
                ShruggieCommand(),
                ListEmojis(),
-               MarkCommand(pass_args=True),
+               MarkCommand(),
                ShameCommand(),
                ShizoCommand(),
            ] + create_emoji_commands()

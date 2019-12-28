@@ -1,6 +1,3 @@
-import random
-import telegram
-
 from bot.commands import BaseCommand
 
 

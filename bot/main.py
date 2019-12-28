@@ -24,7 +24,7 @@ bot_handler = telegram.ext.ConversationHandler(
     states={
         bot.states.START: states,
     },
-    fallbacks=[telegram.ext.RegexHandler('\w+', lambda *args: bot.states.START)]
+    fallbacks=[telegram.ext.MessageHandler(telegram.ext.Filters.regex('\w+'), lambda *args: bot.states.START)]
 )
 
 
@@ -42,7 +42,7 @@ def get_bot():
 
 def start_bot():
     _bot = get_bot()
-    updater = telegram.ext.Updater(bot=_bot)
+    updater = telegram.ext.Updater(bot=_bot, use_context=True)
     dispatcher = updater.dispatcher
     dispatcher.add_handler(bot_handler)
     logger.info('Printing available commands')

@@ -8,9 +8,9 @@ from bot.commands.daily_tasks.get_daily_tasks import GetDailyTasksCommand
 
 def get_commands():
     return [
-        AddDailyTaskCommand(pass_args=True),
-        RemoveDailyTaskCommand(pass_args=True),
-        ToggleDailyTaskCommand(pass_args=True),
+        AddDailyTaskCommand(),
+        RemoveDailyTaskCommand(),
+        ToggleDailyTaskCommand(),
         GetDailyTasksCommand(),
     ]
 

@@ -9,10 +9,10 @@ class AddQueryCommand(BaseCommand):
     _success_message = 'Query added'
     _DESCRIPTION = 'Add a stop-word for the search by freelance markets'
 
-    def _call(self, bot, update, **kwargs):
-        if not kwargs['args']:
+    def _call(self, update, context):
+        if not context.args:
             update.message.reply_text('Query text is required.')
             return
 
-        mongo.users.add_query(update.message.chat.id, kwargs['args'][0])
+        mongo.users.add_query(update.message.chat.id, context.args[0])
         return True

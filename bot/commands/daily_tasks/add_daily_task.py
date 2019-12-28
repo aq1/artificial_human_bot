@@ -9,13 +9,13 @@ class AddDailyTaskCommand(BaseCommand):
     _success_message = 'Daily task added'
     _DESCRIPTION = 'Add a task with daily notification.'
 
-    def _call(self, bot, update, **kwargs):
-        if not kwargs['args']:
+    def _call(self, update, context):
+        if not context.args:
             update.message.reply_text('Task name is required.')
             return
 
         mongo.daily_tasks.add_task(
             update.message.chat.id,
-            kwargs['args'][0],
+            context.args[0],
         )
         return True

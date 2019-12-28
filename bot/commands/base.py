@@ -18,7 +18,7 @@ class BaseCommand(telegram.ext.CommandHandler):
                  command=None,
                  callback=None,
                  filters=None,
-                 allow_edited=False,
+                 allow_edited=None,
                  pass_args=False,
                  pass_update_queue=False,
                  pass_job_queue=False,
@@ -47,17 +47,17 @@ class BaseCommand(telegram.ext.CommandHandler):
             command = command.replace('_', '\_')
         return command
 
-    def _allowed_to_execute(self, bot, update):
+    def _allowed_to_execute(self, update, context):
         return True
 
     @property
     def success_message(self):
         return self._SUCCESS_MESSAGE
 
-    def _callback_query_execute(self, bot, update, **kwargs):
+    def _callback_query_execute(self, update, context):
         return True
 
-    def callback_query(self, bot, update, **kwargs):
+    def callback_query(self, update, context):
         """
         Similar to __call__ logic, but for inline buttons callbacks
         """
@@ -66,37 +66,37 @@ class BaseCommand(telegram.ext.CommandHandler):
         if not self._allowed_to_execute(bot, update):
             return
 
-        ok = self._callback_query_execute(bot, update, **kwargs)
+        ok = self._callback_query_execute(update, context)
 
         if ok and self.success_message:
-            bot.send_message(
+            context.bot.send_message(
                 update.callback_query.message.chat.id,
                 text=self.success_message,
             )
 
         return self._RETURN_STATE
 
-    def _call(self, bot, update, **kwargs):
+    def _call(self, update, context):
         """
         Return bool indicating successful execution
         """
         return True
 
     @telegram.ext.dispatcher.run_async
-    def __call__(self, bot, update, **kwargs):
+    def __call__(self, update, context):
         if update.callback_query:
-            return self.callback_query(bot, update, **kwargs)
+            return self.callback_query(update, context)
 
         mongo.users.save_user(update.message.chat)
 
-        if not self._allowed_to_execute(bot, update):
+        if not self._allowed_to_execute(update, context):
             return
 
-        ok = self._call(bot, update, **kwargs)
+        ok = self._call(update, context)
         text = self.success_message
 
         if ok and text:
-            bot.send_message(
+            context.bot.send_message(
                 update.message.chat.id,
                 text=text,
                 parse_mode=telegram.ParseMode.MARKDOWN,

@@ -10,13 +10,13 @@ class RemoveDailyTaskCommand(BaseCommand):
     _COMMAND = 'remove_daily_task'
     _DESCRIPTION = 'Remove a daily task.'
 
-    def _call(self, bot, update, **kwargs):
-        if not kwargs['args']:
+    def _call(self, update, context):
+        if not context.args:
             update.message.reply_text('Task name is required.')
             return
 
-        if not mongo.daily_tasks.remove_task(update.message.chat.id, kwargs['args'][0]):
-            update.message.reply_text('No task with name {} found'.format(kwargs['args'][0]))
+        if not mongo.daily_tasks.remove_task(update.message.chat.id, context.args[0]):
+            update.message.reply_text('No task with name {} found'.format(context.args[0]))
 
         update.message.reply_text(
             text='Daily task removed',

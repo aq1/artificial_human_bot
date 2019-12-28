@@ -11,11 +11,11 @@ class RemoveQueryCommand(BaseCommand):
     _success_message = 'Query removed'
     _DESCRIPTION = 'Remove a stop-word for the search by freelance markets'
 
-    def _call(self, bot, update, **kwargs):
-        if not kwargs['args']:
+    def _call(self, update, context):
+        if not context.args:
             update.message.reply_text('Query text required.')
             return
-        mongo.users.remove_query(update.message.chat.id, kwargs['args'][0])
+        mongo.users.remove_query(update.message.chat.id, context.args[0])
         return True
 
     def get(self):

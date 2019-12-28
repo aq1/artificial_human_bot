@@ -11,8 +11,8 @@ class SaveCommand(BaseCommand):
     _DESCRIPTION = 'Save text to storage'
     _SUCCESS_MESSAGE = 'Text saved'
 
-    def _call(self, bot, update, **kwargs):
-        text = kwargs['args']
+    def _call(self, update, context):
+        text = context.args
         if not text:
             update.message.reply_text(
                 text='Text is required'

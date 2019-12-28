@@ -10,14 +10,14 @@ class ToggleDailyTaskCommand(BaseCommand):
     _COMMAND = 'mark_daily_task'
     _DESCRIPTION = 'Mark your daily tasks complete/incomplete'
 
-    def _call(self, bot, update, **kwargs):
-        if not kwargs['args']:
+    def _call(self, update, context):
+        if not context.args:
             update.message.reply_text('Task name is required.')
             return
 
         ok = mongo.daily_tasks.toggle_task(
             update.message.chat.id,
-            kwargs['args'][0],
+            context.args[0],
         )
         if not ok:
             update.message.reply_text('Task was not found')

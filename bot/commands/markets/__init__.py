@@ -6,8 +6,8 @@ from bot.commands.markets.remove_query import RemoveQueryCommand
 
 def get_commands():
     return [
-        FreelanceUpdateCommand(pass_args=True, pass_user_data=True),
+        FreelanceUpdateCommand(),
         GetQueriesCommand(),
-        AddQueryCommand(pass_args=True, pass_user_data=True),
-        RemoveQueryCommand(pass_args=True, pass_user_data=True),
+        AddQueryCommand(),
+        RemoveQueryCommand(),
     ]

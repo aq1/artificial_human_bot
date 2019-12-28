@@ -10,7 +10,7 @@ class GetQueriesCommand(BaseCommand):
     _COMMAND = 'get_queries'
     _DESCRIPTION = 'Get your stop-words'
 
-    def _call(self, bot, update, **kwargs):
+    def _call(self, update, context):
         queries = mongo.users.get_queries(update.message.chat.id)
         if not queries:
             update.message.reply_text('You have no queries')

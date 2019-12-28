@@ -10,8 +10,8 @@ from bot.commands import (
 
 class BaseEmojiCommand(BaseCommand):
 
-    def _call(self, bot, update, **kwargs):
-        bot.send_message(
+    def _call(self, update, context):
+        context.bot.send_message(
             update.message.chat.id,
             text=random.choice(settings.EMOJIS[self._COMMAND]),
         )

@@ -56,7 +56,7 @@ class FreelanceUpdateCommand(BaseCommand):
             '\n'.join(text),
         )
 
-    def _call(self, bot, update, **kwargs):
+    def _call(self, update, context):
         projects = mongo.projects.get_new_projects(update.message.chat.id)
         if not projects:
             update.message.reply_text('No new projects found')

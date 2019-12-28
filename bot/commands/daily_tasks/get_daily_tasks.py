@@ -9,7 +9,7 @@ class GetDailyTasksCommand(BaseCommand):
     _COMMAND = 'get_daily_tasks'
     _DESCRIPTION = 'Get your daily tasks'
 
-    def _call(self, bot, update, **kwargs):
+    def _call(self, update, context):
         reply_markup = common.get_tasks_markup(update.message.chat.id)
 
         if not reply_markup:
