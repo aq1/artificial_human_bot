@@ -17,6 +17,6 @@ class ShizoCommand(telegram.ext.RegexHandler):
 
     def __init__(self, *args, **kwargs):
         super().__init__(
-            pattern=re.compile(r'({})'.format('|'.join(self.COUNT))),
+            pattern=re.compile(r'({})'.format('|'.join(self.COUNT)), flags=re.I | re.U),
             callback=self._callback,
         )
