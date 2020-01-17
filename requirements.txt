@@ -6,3 +6,4 @@ pymongo
 celery
 redis
 beautifulsoup4
+tweepy
