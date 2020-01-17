@@ -10,10 +10,13 @@ class TwitterVideoHandler(BaseRegexHandler):
 
     def _callback(self, update, context):
 
+        def failed(msg):
+            context.bot.send_message(update.message.chat_id, msg)
+
         try:
             tweet_id = update.message.text.split('status')[-1].strip('/')
         except ValueError:
-            return
+            return failed('Could not get tweet id')
 
         if not tweet_id:
             return
@@ -25,12 +28,15 @@ class TwitterVideoHandler(BaseRegexHandler):
         )
         api = tweepy.API(auth)
         status = api.get_status(tweet_id)
-        video = max(
-            status._json['extended_entities']['media'][0]['video_info']['variants'],
-            key=lambda v: v.get('bitrate', 0),
-        )
+        try:
+            video = max(
+                status._json['extended_entities']['media'][0]['video_info']['variants'],
+                key=lambda v: v.get('bitrate', 0),
+            )
+        except (KeyError, IndexError):
+            return failed('Could not find entities')
 
         try:
             context.bot.send_message(update.message.chat_id, video['url'])
         except KeyError:
-            return
+            return failed('Could not find video url')
