@@ -1,3 +1,5 @@
+import re
+
 import telegram.ext
 
 import settings
@@ -116,3 +118,17 @@ class AdminBaseCommand(BaseCommand):
 
     def __str__(self):
         return ''
+
+
+class BaseRegexHandler(telegram.ext.MessageHandler):
+
+    REGEX = r''
+
+    def _callback(self, update, context):
+        pass
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            filters=telegram.ext.Filters.regex(re.compile(self.REGEX, flags=re.I | re.U)),
+            callback=self._callback,
+        )

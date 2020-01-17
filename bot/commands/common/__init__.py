@@ -7,7 +7,8 @@ from bot.commands.common.lenny import LennyCommand
 from bot.commands.common.shruggie import ShruggieCommand
 from bot.commands.common.mark import MarkCommand
 from bot.commands.common.shame import ShameCommand
-from bot.commands.common.shizo import ShizoCommand
+from bot.commands.common.shizo import ShizoHandler
+from bot.commands.common.twitter_video import TwitterVideoHandler
 from bot.commands.common.emojis import (
     ListEmojis,
     create_emoji_commands,
@@ -26,5 +27,6 @@ def get_commands():
                ListEmojis(),
                MarkCommand(),
                ShameCommand(),
-               ShizoCommand(),
+               ShizoHandler(),
+               TwitterVideoHandler(),
            ] + create_emoji_commands()

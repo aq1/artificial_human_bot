@@ -4,9 +4,13 @@ import telegram.ext
 
 import mongo
 
+from bot.commands.base import BaseRegexHandler
 
-class ShizoCommand(telegram.ext.MessageHandler):
+
+class ShizoHandler(BaseRegexHandler):
+
     COUNT = mongo.client.db.emojis.find_one({'_id': 'shizo'})['count']
+    REGEX = r'^({})$'.format('|'.join(COUNT))
 
     def _callback(self, update, context):
         try:
@@ -14,9 +18,3 @@ class ShizoCommand(telegram.ext.MessageHandler):
         except ValueError:
             return
         context.bot.send_message(update.message.chat_id, text)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(
-            filters=telegram.ext.Filters.regex(re.compile(r'^({})$'.format('|'.join(self.COUNT)), flags=re.I | re.U)),
-            callback=self._callback,
-        )
