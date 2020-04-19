@@ -112,7 +112,7 @@ class BaseCommand(telegram.ext.CommandHandler):
 
 class AdminBaseCommand(BaseCommand):
 
-    def _allowed_to_execute(self, bot, update):
+    def _allowed_to_execute(self, update, context):
         message = update.message or update.callback_query.message
         return message.chat.id in settings.ADMINS
 

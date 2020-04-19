@@ -9,7 +9,7 @@ from bot.commands.base import BaseRegexHandler
 
 class ShizoHandler(BaseRegexHandler):
 
-    COUNT = mongo.client.db.emojis.find_one({'_id': 'shizo'})['count']
+    COUNT = (mongo.client.db.emojis.find_one({'_id': 'shizo'}) or {}).get('count', [])
     REGEX = r'^({})$'.format('|'.join(COUNT))
 
     def _callback(self, update, context):
