@@ -57,4 +57,8 @@ class PoloniexBalanceCommand(AdminBaseCommand):
             '*{name}*\n1 *{name}* = {rate:.2f} USDT\n'
             'You have {amount:.5f} {name} or *{amount_usdt:.2f} USDT*'
         )
-        return '\n'.join([text.format(**currency) for currency in currencies])
+        return '\n'.join([
+            text.format(**currency)
+            for currency in currencies
+            if currency['amount_usdt']
+        ])
