@@ -60,5 +60,5 @@ class PoloniexBalanceCommand(AdminBaseCommand):
         return '\n'.join([
             text.format(**currency)
             for currency in currencies
-            if currency['amount_usdt']
+            if currency['amount_usdt'] > 0.01
         ])
