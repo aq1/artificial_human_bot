@@ -20,4 +20,6 @@ jobs:
             git pull
             source /apps/artificial_human_bot/.venv/bin/activate
             pip install -r requirements.txt
+            cp /apps/artificial_human_bot/settings/configs/artificial_human_bot.service /etc/systemd/system/
+            systemctl daemon-reload
             systemctl restart artificial_human_bot
