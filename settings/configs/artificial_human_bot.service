@@ -1,6 +1,12 @@
 [Unit]
 Description=Artificial Human Interface Bot
+After=multi-user.target
 
 [Service]
-ExecStart=/_projects/artificial_human_bot/.env/bin/python /_projects/artificial_human_bot/manage.py
-PIDFile=/var/run/artificial_human_bot.pid
+Type=simple
+ExecStart=/apps/artificial_human_bot/.venv/bin/python /apps/artificial_human_bot/manage.py
+WorkingDirectory=/apps/artificial_human_bot/
+StandardInput=tty-force
+
+[Install]
+WantedBy=multi-user.target
