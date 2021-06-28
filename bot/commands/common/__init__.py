@@ -1,7 +1,7 @@
 from bot.commands.common.start import StartCommand
 from bot.commands.common.help import HelpCommand
 from bot.commands.common.bot_ip import BotIPCommand
-from bot.commands.common.poloniex_balance import PoloniexBalanceCommand
+from bot.commands.common.c import CCommand
 from bot.commands.common.my_chat_id import MyChatIDCommand
 from bot.commands.common.lenny import LennyCommand
 from bot.commands.common.shruggie import ShruggieCommand
@@ -18,7 +18,7 @@ def get_commands():
                StartCommand(),
                HelpCommand(),
                BotIPCommand(),
-               PoloniexBalanceCommand(),
+               CCommand(),
                MyChatIDCommand(),
                LennyCommand(),
                ShruggieCommand(),

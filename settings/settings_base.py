@@ -24,3 +24,7 @@ CELERY_BACKEND = 'redis://127.0.0.1:6379/0'
 CELERY_BROKER = 'redis://127.0.0.1:6379/0'
 
 PID_PATH = '/var/run/artificial_human_bot.pid'
+
+B = ''
+E = ''
+X = ''

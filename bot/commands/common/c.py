@@ -11,9 +11,14 @@ from bot.commands import (
 )
 
 
-class PoloniexBalanceCommand(AdminBaseCommand):
+BTC_URL = 'https://api.blockcypher.com/v1/btc/main/addrs/{}/balance'
+ETH_URL = ''
+XMR_URL = ''
 
-    _COMMAND = 'poloniex_balance'
+
+class CCommand(AdminBaseCommand):
+
+    _COMMAND = 'cc'
 
     @staticmethod
     def get_currencies_rate():
@@ -48,6 +53,16 @@ class PoloniexBalanceCommand(AdminBaseCommand):
                 'amount_usdt': currency_amount * rate,
             })
 
+        btc_data = requests.get(BTC_URL.format(settings.B)).json()
+        rate = float(rates['USDT_BTC']['highestBid'])
+        amount = btc_data['final_balance'] / 100000000
+        result.append({
+            'name': 'BTC',
+            'amount': amount,
+            'rate': rate,
+            'amount_usdt': amount * rate,
+        })
+
         return sorted(result, key=lambda val: val['name'])
 
     @property
@@ -60,5 +75,5 @@ class PoloniexBalanceCommand(AdminBaseCommand):
         return '\n'.join([
             text.format(**currency)
             for currency in currencies
-            if currency['amount_usdt'] > 0.01
+            if currency['amount_usdt'] > 0.5
         ])
