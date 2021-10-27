@@ -20,49 +20,22 @@ class CCommand(AdminBaseCommand):
 
     @staticmethod
     def get_currencies_rate():
-        post_data = urllib.parse.urlencode({
-            'command': 'returnAvailableAccountBalances',
-            'nonce': int(time.time() * 1000)
-        }).encode('utf-8')
-        sign = hmac.new(settings.POLONIEX_SECRET.encode('utf8'), post_data, hashlib.sha512).hexdigest()
-        response = requests.post(
-            'https://poloniex.com/tradingApi',
-            data=post_data,
-            headers={
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Key': settings.POLONIEX_KEY,
-                'Sign': sign,
-            }
-        )
-
         rates = requests.get('https://poloniex.com/public?command=returnTicker').json()
-        data = response.json()
         result = []
-        for currency_name, currency_amount in data.get('exchange', {}).items():
-            currency_amount = round(float(currency_amount), 8)
-            try:
-                rate = float(rates['USDT_{}'.format(currency_name)].get('low24hr'))
-            except KeyError:
-                rate = 0
-            result.append({
-                'name': currency_name,
-                'amount': currency_amount,
-                'rate': rate,
-                'amount_usdt': currency_amount * rate,
-            })
 
-        rate = 0
-        amount = 0
         parameters = (
             ('btc', 'eth'),
             (settings.B, settings.E),
             (100000000, 1e+18)
         )
+
         for token, addresses, coefficient in zip(*parameters):
+            amount = 0
+            rate = 0
             for address in addresses:
-                btc_data = requests.get(C_URL.format(token, address)).json()
-                rate = float(rates['USDT_BTC']['low24hr'])
-                amount = btc_data['final_balance'] / coefficient
+                data = requests.get(C_URL.format(token, address)).json()
+                rate = float(rates[f'USDT_{token.upper()}']['low24hr'])
+                amount += data['final_balance'] / coefficient
             result.append({
                 'name': token.upper(),
                 'amount': amount,
