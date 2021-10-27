@@ -11,7 +11,7 @@ from bot.commands import (
 )
 
 
-C_URL = 'https://api.blockcypher.com/v1/{token}/main/addrs/{address}/balance?limit=0'
+C_URL = 'https://api.blockcypher.com/v1/{}/main/addrs/{}/balance?limit=0'
 
 
 class CCommand(AdminBaseCommand):
