@@ -11,9 +11,7 @@ from bot.commands import (
 )
 
 
-BTC_URL = 'https://api.blockcypher.com/v1/btc/main/addrs/{}/balance'
-ETH_URL = ''
-XMR_URL = ''
+C_URL = 'https://api.blockcypher.com/v1/{token}/main/addrs/{address}/balance?limit=0'
 
 
 class CCommand(AdminBaseCommand):
@@ -43,7 +41,7 @@ class CCommand(AdminBaseCommand):
         for currency_name, currency_amount in data.get('exchange', {}).items():
             currency_amount = round(float(currency_amount), 8)
             try:
-                rate = float(rates['USDT_{}'.format(currency_name)].get('highestBid'))
+                rate = float(rates['USDT_{}'.format(currency_name)].get('low24hr'))
             except KeyError:
                 rate = 0
             result.append({
@@ -53,15 +51,24 @@ class CCommand(AdminBaseCommand):
                 'amount_usdt': currency_amount * rate,
             })
 
-        btc_data = requests.get(BTC_URL.format(settings.B)).json()
-        rate = float(rates['USDT_BTC']['highestBid'])
-        amount = btc_data['final_balance'] / 100000000
-        result.append({
-            'name': 'BTC',
-            'amount': amount,
-            'rate': rate,
-            'amount_usdt': amount * rate,
-        })
+        rate = 0
+        amount = 0
+        parameters = (
+            ('btc', 'eth'),
+            (settings.B, settings.E),
+            (100000000, 1e+18)
+        )
+        for token, addresses, coefficient in zip(*parameters):
+            for address in addresses:
+                btc_data = requests.get(C_URL.format(token, address)).json()
+                rate = float(rates['USDT_BTC']['low24hr'])
+                amount = btc_data['final_balance'] / coefficient
+            result.append({
+                'name': token.upper(),
+                'amount': amount,
+                'rate': rate,
+                'amount_usdt': amount * rate,
+            })
 
         return sorted(result, key=lambda val: val['name'])
 
