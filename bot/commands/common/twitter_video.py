@@ -7,6 +7,7 @@ from bot.commands.base import BaseRegexHandler
 class TwitterVideoHandler(BaseRegexHandler):
 
     REGEX = r'^.*?twitter\.com.*?status\/.*?$'
+    _DESCRIPTION = 'Extract video from twitter link'
 
     def _callback(self, update, context):
 

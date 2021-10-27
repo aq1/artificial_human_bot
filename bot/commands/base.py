@@ -84,7 +84,6 @@ class BaseCommand(telegram.ext.CommandHandler):
         """
         return True
 
-    @telegram.ext.dispatcher.run_async
     def __call__(self, update, context):
         if update.callback_query:
             return self.callback_query(update, context)

@@ -53,7 +53,7 @@ def start_bot():
     notify_admin_about_restart(_bot)
     try:
         updater.start_polling(
-            clean=True,
+            drop_pending_updates=True,
             timeout=5,
             poll_interval=0.5,
         )
