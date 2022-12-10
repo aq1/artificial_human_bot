@@ -1,3 +1,4 @@
+import telegram
 import tweepy
 
 import settings
@@ -38,6 +39,9 @@ class TwitterVideoHandler(BaseRegexHandler):
             return failed('Could not find entities')
 
         try:
-            context.bot.send_message(update.message.chat_id, video['url'])
+            update.effective_chat.send_message(
+                text=f'<a href="{video["url"]}">.</a>',
+                parse_mode=telegram.ParseMode.HTML,
+            )
         except KeyError:
             return failed('Could not find video url')

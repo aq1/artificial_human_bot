@@ -1,8 +1,3 @@
-import hmac
-import hashlib
-import time
-import urllib.parse
-
 import requests
 
 import settings

@@ -3,7 +3,6 @@ import re
 import telegram.ext
 
 import settings
-import mongo
 import bot
 
 
@@ -63,7 +62,6 @@ class BaseCommand(telegram.ext.CommandHandler):
         """
         Similar to __call__ logic, but for inline buttons callbacks
         """
-        mongo.users.save_user(update.callback_query.message.chat)
 
         if not self._allowed_to_execute(bot, update):
             return
@@ -87,8 +85,6 @@ class BaseCommand(telegram.ext.CommandHandler):
     def __call__(self, update, context):
         if update.callback_query:
             return self.callback_query(update, context)
-
-        mongo.users.save_user(update.message.chat)
 
         if not self._allowed_to_execute(update, context):
             return
