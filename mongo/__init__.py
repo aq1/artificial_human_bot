@@ -4,4 +4,5 @@ from mongo import (
     users,
     daily_tasks,
     emojis,
+    twitter,
 )

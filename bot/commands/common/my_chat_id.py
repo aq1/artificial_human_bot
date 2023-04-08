@@ -10,6 +10,6 @@ class MyChatIDCommand(BaseCommand):
 
     def _call(self, update, context):
         update.message.reply_text(
-            text='Your chat is {}'.format(update.message.chat.id),
+            text='Your chat is {}'.format(update.effective_chat.id),
         )
         return True

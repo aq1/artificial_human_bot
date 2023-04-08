@@ -76,7 +76,7 @@ class BaseCommand(telegram.ext.CommandHandler):
 
         return self._RETURN_STATE
 
-    def _call(self, update, context):
+    def _call(self, update: telegram.Update, context: telegram.ext.CallbackContext):
         """
         Return bool indicating successful execution
         """

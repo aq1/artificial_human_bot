@@ -1,9 +1,7 @@
-python_telegram_bot
+python-telegram-bot==13.7
 requests
-# python_upwork
-freelancersdk
-pymongo
+pymongo==4.3.3
 celery
 redis
 beautifulsoup4
-tweepy
+tweepy==4.13.0
