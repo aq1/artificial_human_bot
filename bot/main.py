@@ -6,7 +6,8 @@ import bot
 from utils.logging import logger
 
 commands = (
-    bot.commands.common.get_commands()
+    bot.commands.common.get_commands() + 
+    bot.commands.twitter.get_commands()
     # bot.commands.markets.get_commands()
     # bot.commands.daily_tasks.get_commands() +
     # bot.commands.storage.get_commands()

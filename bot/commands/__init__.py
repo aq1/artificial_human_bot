@@ -4,4 +4,5 @@ from bot.commands.base import (
 )
 from bot.commands import (
     common,
+    twitter,
 )
