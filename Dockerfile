@@ -1,9 +1,6 @@
 FROM python:3.10-bullseye
 
-USER django
-
-ENV PATH="/home/django/.local/bin:${PATH}" \
-    PYTHONUNBUFFERED=1 \
+ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
@@ -11,10 +8,10 @@ ENV PATH="/home/django/.local/bin:${PATH}" \
 
 WORKDIR /app
 
-COPY --chown=django:django requirements.txt .
+COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY --chown=django:django ./main.py .
+COPY ./main.py .
 
 CMD python main.py
