@@ -1,7 +1,2 @@
 python-telegram-bot==13.7
 requests
-pymongo==4.3.3
-celery
-redis
-beautifulsoup4
-tweepy==4.13.0
