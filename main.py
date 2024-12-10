@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     try:
-        text = str(requests.get('https://api.ipify.org?format=json').json()['ip'])
+        text = requests.get('https://panel.igandesigner.ru/api/external/my-ip/').text
     except (requests.HTTPError, ValueError, TypeError) as e:
         text = str(e)
 
